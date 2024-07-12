@@ -1,0 +1,73 @@
+const express = require('express');
+const app = express();
+const port = 3000;
+
+// Hardcoded list of words on the server
+const companies = [
+    "AMZ","FLP","SNP","MYN","AZO"
+];
+
+const cotegories = [
+    "TV","Laptop","Earphone","Tablet"
+];
+
+products=[
+    {
+        "ProductName":"Laptop1",
+        "price":"8792",
+        "rating":4.9,
+        "discout":89,
+        "availability":"yes"
+    },
+    {
+        "ProductName":"Laptop2",
+        "price":"1234",
+        "rating":4.4,
+        "discout":89,
+        "availability":"out-of stock"
+    },
+    {
+        "ProductName":"Laptop3",
+        "price":"1234",
+        "rating":4.9,
+        "discout":50,
+        "availability":"yes"
+    },
+    {
+        "ProductName":"Laptop4",
+        "price":"1234",
+        "rating":4.9,
+        "discout":20,
+        "availability":"yes"
+    }
+]
+
+app.get('/products', (req, res) => {
+    const { company, category, minPrice, maxPrice, n } = req.query;
+
+    const min = parseFloat(minPrice);
+    const max = parseFloat(maxPrice);
+
+    const filteredProducts = products.filter(product =>
+        product.company.toLowerCase() === company.toLowerCase() &&
+        product.category.toLowerCase() === category.toLowerCase() &&
+        product.price >= min && product.price <= max &&
+        product.availability === true
+    );
+
+    filteredProducts.sort((a, b) => b.rating - a.rating); 
+
+    const topNProducts = filteredProducts.slice(0, parseInt(n, 10));
+
+    res.json(topNProducts);
+});
+
+
+app.get('', (req, res) => {
+
+
+
+});
+app.listen(port, () => {
+    console.log(`http://localhost:${port}`);
+});
