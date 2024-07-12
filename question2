@@ -55,9 +55,9 @@ app.get('/products', (req, res) => {
 
     fp.sort((a, b) => b.rating - a.rating); 
 
-    const topNProducts = fp.slice(0, parseInt(n, 10));
+    const top = fp.slice(0, parseInt(n, 10));
 
-    res.json(topNProducts);
+    res.json(top);
 });
 
 
