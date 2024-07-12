@@ -1,0 +1,66 @@
+
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = 9876;
+app.use(bodyParser.json());
+let s=0;
+en=[2,4,6,8]
+for (let i=0;i<en.length;i++)
+{
+    s=s+en[i];
+}
+console.log(s)
+result=[
+    {
+        "numbers":en,
+        "avg":s/4
+    }
+]
+console.log(result)
+app.get('/numbers/e', (req, res) => {
+  res.json(result);
+});
+
+
+fibo=[55,89,144,233,377,610,987,1597,2584,4181,6765]
+pri=[2,3,5,7,11]
+app.get('/numbers/f', (req, res) => {
+    result=[
+        {
+            "numbers":fibo
+        }
+    ]
+  res.json(result);
+});
+
+
+app.get('/numbers/p', (req, res) => {
+    result=[
+        {
+            "numbers":pri
+        }
+    ]
+  res.json(result);
+});
+function generate(count, min, max) {
+    const ran = [];
+    for (let i = 0; i < count; i++) {
+      const ranr = Math.floor(Math.random() * (max - min + 1)) + min;
+      ran.push(ranr);
+    }
+    return ran;
+  }
+
+app.get('/numbers/rand', (req, res) => {
+    const min = 1;
+    const max = 100;
+    const result= generate(10, min, max);
+    res.json({ numbers: result});
+    
+  });
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
